@@ -1,6 +1,7 @@
 /**
  * Required External Modules
  */
+import * as path from 'path';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import express from 'express';
@@ -31,6 +32,7 @@ const app = express()
 app.use(helmet())
 app.use(cors())
 app.use(express.json())
+app.use(express.static(path.resolve(__dirname, '..', 'public')))
 app.use('/api/menu/items', itemsRouter)
 
 app.use(errorHandler)
