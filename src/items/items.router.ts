@@ -14,7 +14,8 @@ export const itemsRouter = express.Router()
  */
 itemsRouter.get('/', async (request: Request, response: Response) => {
     try {
-        throw Error('Oops! something went wrong')
+        // test error
+        // throw Error('Oops! something went wrong')
         const items = await ItemService.findAll()
         response.status(200).send(items)
     } catch (e) {
