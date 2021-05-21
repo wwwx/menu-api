@@ -44,7 +44,53 @@ itemsRouter.get('/:id', async (request: Request, response: Respnose) => {
 })
 
 // POST items
+itemsRouter.post('/', async (request: Request, response: Response) => {
+   try {
+        const item: BaseItem = request.body
+        console.log(item)
+        const newItem = await ItemService.create(item)
+        response.status(201).json(newItem)
+   } catch(e) {
+        response.status(500).send(e.message)
+   } 
+})
 
 // PUT items/:id
+itemsRouter.put('/:id', async (request: Request, response: Response) => {
+    try {
+        const { id } = request.params
+        const itemUpdate: BaseItem = request.body
+        const existingItem = await ItemService.find(id)
+
+        console.log(id, itemUpdate)
+        
+        if (existingItem) {
+            const updatedItem = await ItemService.update(id, itemUpdate)
+            return response.status(200).send(updatedItem)
+        }
+        
+        const newItem = await ItemService.create(itemUpdate)
+        response.status(201).send(newItem)
+    } catch (e) {
+        response.status(500).send(e.message)
+    }
+})
 
 // DELETE items/:id
+itemsRouter.delete('/:id', async (request: Request, response: Response) => {
+    try {
+        const { id } = request.params
+        console.log('Delete ', id)
+        await ItemService.remove(id)
+        response.sendStatus(204)
+    } catch(e) {
+        resonse.status(500).send(e.message)
+    }
+})
+
+
+
+
+
+
+
